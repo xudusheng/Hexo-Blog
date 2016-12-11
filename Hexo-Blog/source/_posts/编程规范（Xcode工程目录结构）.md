@@ -1,8 +1,7 @@
 ---
-title: iHappy，基于React Native的开发
-date: 2016-12-10
-tags: [热部署, React Native, Redux]
-categories: React Native
+title: 编程规范（Xcode工程目录结构）
+date: 2016-12-09
+categories: [编程规范, Xcode工程目录结构]
 ---
 
 {% codeblock %}

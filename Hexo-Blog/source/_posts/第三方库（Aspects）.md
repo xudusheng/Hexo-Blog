@@ -1,8 +1,7 @@
 ---
-title: iHappy，基于React Native的开发
-date: 2016-12-10
-tags: [热部署, React Native, Redux]
-categories: React Native
+title: 第三方库（Aspects）
+date: 2016-12-09
+categories: [第三方库, Aspects]
 ---
 
 {% codeblock %}

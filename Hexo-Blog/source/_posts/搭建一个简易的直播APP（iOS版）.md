@@ -1,4 +1,9 @@
-## 搭建一个简易的直播APP（iOS版） ##
+---
+title: 搭建一个简易的直播APP（iOS版）
+date: 2016-12-10
+tags: [直播, 播放器, 推流, nignx, rtmp, hls]
+categories: [直播]
+---
 
 {% codeblock %}
 ###  目录
@@ -175,7 +180,7 @@ $ lipo -create /Users/Hmily/Desktop/framework/Release-iphoneos/IJKMediaFramework
     $ nginx
 {% endcodeblock %}
 在浏览器地址栏输入：http://localhost:8080 （直接点击）
-如果出现下图, 则表示安装成功。  
+如果出现下图, 则表示安装成功。 
 ![image](http://ohlldt20k.bkt.clouddn.com/hls_1_10.png)
 
 ### &emsp;&emsp;3.3、配置rtmp
