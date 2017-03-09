@@ -4,7 +4,7 @@
 
 # Site
 title: 大道至简
-subtitle: 许杜生的技术博客
+subtitle: 许杜生の技术博客
 description:
 author: 许杜生
 language: zh-CN
@@ -12,7 +12,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-# url: http://yoursite.com
+# url: http://yoursite.com/
 # root: /
 # permalink: :year/:month/:day/:title/
 # permalink_defaults:
