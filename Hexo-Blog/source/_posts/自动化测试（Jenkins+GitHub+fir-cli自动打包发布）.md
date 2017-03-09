@@ -1,7 +1,7 @@
 ---
 title: 自动化测试（Jenkins+GitHub+fir-cli自动打包发布）
-date: 2016-12-09
-categories: [自动化测试, Jenkins+GitHub+fir-cli自动打包发布]
+date: 2017-02-19
+categories: [自动化测试]
 ---
 * 
 {% codeblock lang:sh %}

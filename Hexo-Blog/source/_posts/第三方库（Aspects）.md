@@ -1,7 +1,7 @@
 ---
 title: 第三方库（Aspects）
 date: 2016-12-09
-categories: [第三方库, Aspects]
+categories: [第三方库]
 ---
 
 {% codeblock %}

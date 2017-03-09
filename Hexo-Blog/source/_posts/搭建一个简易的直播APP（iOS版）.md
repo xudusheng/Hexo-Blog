@@ -1,7 +1,6 @@
 ---
 title: 搭建一个简易的直播APP（iOS版）
-date: 2016-12-10
-tags: [直播, 播放器, 推流, nignx, rtmp, hls]
+date: 2017-03-09
 categories: [直播]
 ---
 

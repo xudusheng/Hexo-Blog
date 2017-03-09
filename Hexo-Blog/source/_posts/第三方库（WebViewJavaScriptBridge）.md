@@ -1,7 +1,7 @@
 ---
 title: 第三方库（WebViewJavaScriptBridge）
 date: 2016-12-09
-categories: [第三方库, WebViewJavaScriptBridge]
+categories: [第三方库]
 ---
 
 {% codeblock %}

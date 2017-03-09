@@ -1,7 +1,7 @@
 ---
 title: 热修复（JSPath）
 date: 2016-12-09
-categories: [热修复, JSPath]
+categories: [热修复]
 ---
 
 {% codeblock %}

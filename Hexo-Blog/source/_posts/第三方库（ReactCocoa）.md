@@ -1,7 +1,7 @@
 ---
 title: 第三方库（ReactCocoa）
 date: 2016-12-09
-categories: [第三方库, ReactCocoa]
+categories: [第三方库]
 ---
 
 {% codeblock %}

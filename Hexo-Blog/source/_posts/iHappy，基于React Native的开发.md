@@ -1,7 +1,6 @@
 ---
 title: iHappy，基于React Native的开发
 date: 2016-12-10
-tags: [热部署, React Native, Redux]
 categories: React Native
 ---
 

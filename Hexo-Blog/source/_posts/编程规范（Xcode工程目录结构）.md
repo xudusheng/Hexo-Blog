@@ -1,7 +1,7 @@
 ---
 title: 编程规范（Xcode工程目录结构）
 date: 2016-12-09
-categories: [编程规范, Xcode工程目录结构]
+categories: [编程规范]
 ---
 
 {% codeblock %}
