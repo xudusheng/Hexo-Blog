@@ -52,19 +52,19 @@ java -jar jenkins.war --httpPort=7070
 * 下载 {% link 插件 http://7xju1s.com1.z0.glb.clouddn.com/fir-plugin(5).hpi %}
 * 安装插件
 进入Jenkins点击左上方的系统管理然后进入插件管理
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-1.png)
+![image](http://129.204.47.207/img/blog/20161211-1-1.png)
 
 然后点高级
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-2.png)
+![image](http://129.204.47.207/img/blog/20161211-1-2.png)
 
 
 往下拖找到上传插件
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-3.png)
+![image](http://129.204.47.207/img/blog/20161211-1-3.png)
 
 
 
 把下载好的文件传入，然后等待安装完成
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-4.png)
+![image](http://129.204.47.207/img/blog/20161211-1-4.png)
 
 
 
@@ -81,24 +81,24 @@ java -jar jenkins.war --httpPort=7070
 * 6.1、创建一个新的项目 
 
 * 6.2、项目基本信息  
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-5.png)
+![image](http://129.204.47.207/img/blog/20161211-1-5.png)
 
 
 * 6.3、源码管理信息   
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-6.png)
+![image](http://129.204.47.207/img/blog/20161211-1-6.png)
 
 
 * 6.4、构建触发器：  
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-7.png)
+![image](http://129.204.47.207/img/blog/20161211-1-7.png)
 
 
 
 * 6.5、构建->添加构建步骤  
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-8.png)
+![image](http://129.204.47.207/img/blog/20161211-1-8.png)
 
 
 * 6.6、构建->Xcode  
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-9.png)
+![image](http://129.204.47.207/img/blog/20161211-1-9.png)
 
 
 * 6.7、构建->Xcode证书信息  
@@ -106,21 +106,21 @@ java -jar jenkins.war --httpPort=7070
 1、勾选Unlock Keychain；
 2、Keychain path中输入 ￥{HOME}/Library/Keychains/login.keychain;
 3、Keychain password为你的钥匙串密码。
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-10.png)
+![image](http://129.204.47.207/img/blog/20161211-1-10.png)
 
 
 
 * 6.8、构建后操作->Upload to fir.im  
 安装过fim.im插件以后，这里就可以看到Upload to fim.im选项了，fim.im的上传脚本可参考fir.im的相关文档进行操作，如果使用的是蒲公英或者其他第三方托管平台，这一步的操作是一样的，安装插件-添加构建后操作->添加上传脚本
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-11.png)
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-12.png)
+![image](http://129.204.47.207/img/blog/20161211-1-11.png)
+![image](http://129.204.47.207/img/blog/20161211-1-12.png)
 
 
 至此，所有的配置都已经完成，下面就可以进行构建操作了。
 
 最后一步：构建生成ipa文件，并上传fir.im
 回到刚刚创建的项目，进入项目页面，点击左边的“立即构建”按钮，即可开始构建。构建完成以后，可以在配置的ipa所在的路径查看是否生产ipa文件。登录fir.im查看是否已经上传到fim.im上。至此，本教程结束。
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-13.png)
+![image](http://129.204.47.207/img/blog/20161211-1-13.png)
 
 
 
@@ -130,7 +130,7 @@ java -jar jenkins.war --httpPort=7070
 如果项目中使用了cocoapods管理第三方框架，那么构建->xcode设置时需要注意：
 
 1. 因为项目中使用 workspace， 所以 Target 可以不填。
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-14.png)
+![image](http://129.204.47.207/img/blog/20161211-1-14.png)
 
 
     Xcode Schema File:  这里的 Laomoney_debug 就是我在 Xcode 项目中新建的 scheme。
@@ -141,12 +141,12 @@ java -jar jenkins.war --httpPort=7070
 
 
 
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-15.png)
+![image](http://129.204.47.207/img/blog/20161211-1-15.png)
 
 
 以下是项目的文件夹目录
 
-![image](http://ohlldt20k.bkt.clouddn.com/20161211-1-16.png)
+![image](http://129.204.47.207/img/blog/20161211-1-16.png)
 
 
 
