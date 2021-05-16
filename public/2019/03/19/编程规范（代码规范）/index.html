@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 5.4.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>编程规范（Objective-C编码规范） - 许杜生の技术博客</title>
+
+  
+    <meta name="description" content="目的统一编程风格，提高的可读性与编码效率，避免团队开发可能带来的混乱。 适用范围本规范适用于公司项目产品运用Objective-C作为开发语言的编码活动。 定义规则 : 编程时必须遵守的约定  建议 : 编程时需要考虑的约定  绿色代码 : 对此规则或建议给出的正确例子  红色代码: 对此规则或建议给出的反面例子  匈牙利命名法：是一种编程时的命名规范。基本原则是：变量名＝属性＋类型＋对象描述，其">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编程规范（Objective-C编码规范）">
+<meta property="og:url" content="http://example.com/2019/03/19/%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83%EF%BC%88%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83%EF%BC%89/index.html">
+<meta property="og:site_name" content="许杜生の技术博客">
+<meta property="og:description" content="目的统一编程风格，提高的可读性与编码效率，避免团队开发可能带来的混乱。 适用范围本规范适用于公司项目产品运用Objective-C作为开发语言的编码活动。 定义规则 : 编程时必须遵守的约定  建议 : 编程时需要考虑的约定  绿色代码 : 对此规则或建议给出的正确例子  红色代码: 对此规则或建议给出的反面例子  匈牙利命名法：是一种编程时的命名规范。基本原则是：变量名＝属性＋类型＋对象描述，其">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-03-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-16T12:11:10.323Z">
+<meta property="article:author" content="许杜生">
+<meta name="twitter:card" content="summary">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+</head>
+
+<body>
+  
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left'>
+    
+
+<header class='header'>
+  <div class='logo-wrap'>
+  
+    <a class='avatar' href='/about/'>
+      
+        <img no-lazy class='bg' style='opacity:0' src='https://cdn.jsdelivr.net/gh/cdn-x/placeholder@1.0.2/avatar/round/rainbow64@3x.webp'/>
+      
+      <img no-lazy class='avatar' src='http://img.qqju.com/pic/tx/tx14320s.jpg'/>
+    </a>
+  
+  
+    <a class='title' href='/'>
+      许杜生の技术博客
+    </a>
+  
+</div>
+
+  <nav class="menu dis-select"></nav>
+</header>
+
+<div class='widgets'>
+  
+    
+      
+      
+<div class="widget-wrap" id="toc"><div class="widget-header h4 dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14 post"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E7%9A%84"><span class="toc-text">目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%82%E7%94%A8%E8%8C%83%E5%9B%B4"><span class="toc-text">适用范围</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%B8%83%E5%B1%80"><span class="toc-text">代码布局</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%97%B4%E9%9A%94%E4%B8%8E%E6%A0%BC%E5%BC%8F%E5%8C%96"><span class="toc-text">间隔与格式化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%A1%8C%E9%95%BF%E5%BA%A6%E9%99%90%E5%88%B6"><span class="toc-text">代码行长度限制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E5%90%8D"><span class="toc-text">命名</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%91%BD%E5%90%8D"><span class="toc-text">文件命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Objective-C"><span class="toc-text">Objective-C++</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%91%BD%E5%90%8D"><span class="toc-text">类命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%88%AB%E5%91%BD%E5%90%8D"><span class="toc-text">类别命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Objective-C%E6%96%B9%E6%B3%95%E5%91%BD%E5%90%8D"><span class="toc-text">Objective-C方法命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%91%BD%E5%90%8D"><span class="toc-text">变量命名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E4%BD%93%E5%8F%98%E9%87%8F"><span class="toc-text">实体变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%B8%E9%87%8F"><span class="toc-text">常量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A"><span class="toc-text">注释</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A3%B0%E6%98%8E%E6%B3%A8%E9%87%8A"><span class="toc-text">声明注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E9%87%8A%E5%86%85%E5%AE%B9"><span class="toc-text">注释内容</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cocoa%E5%92%8CObjective-C%E7%89%B9%E6%80%A7"><span class="toc-text">Cocoa和Objective-C特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%BA%94%E8%AF%A5%E5%AE%9A%E4%B9%89%E4%B8%BA-private"><span class="toc-text">成员变量应该定义为@private</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%8E%E7%A1%AE%E6%8C%87%E5%AE%9A%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">明确指定初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%86%99%E6%8C%87%E5%AE%9A%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">重写指定初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E5%86%99NSObject%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">重写NSObject的方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E8%B0%83%E7%94%A8new%E6%96%B9%E6%B3%95"><span class="toc-text">避免调用new方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E5%8F%98%E9%87%8F"><span class="toc-text">初始化变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E6%8C%81%E5%85%AC%E6%9C%89API%E7%AE%80%E6%98%8E"><span class="toc-text">保持公有API简明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#import%E5%92%8C-include"><span class="toc-text">#import和#include</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%A0%B9%E6%A1%86%E6%9E%B6"><span class="toc-text">使用根框架</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E5%BB%BA%E6%97%B6%E5%8D%B3%E8%AE%BE%E5%AE%9Aautorelease"><span class="toc-text">构建时即设定autorelease</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BC%98%E5%85%88autorelease%E8%80%8C%E9%9D%9Eretain"><span class="toc-text">优先autorelease而非retain</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A5%E5%A3%B0%E6%98%8E%E6%97%B6%E7%9A%84%E9%A1%BA%E5%BA%8Fdealloc%E5%A4%84%E7%90%86%E5%AE%9E%E4%BE%8B%E5%8F%98%E9%87%8F"><span class="toc-text">以声明时的顺序dealloc处理实例变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Setters-copy-NSStrings"><span class="toc-text">Setters copy NSStrings</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8"><span class="toc-text">避免抛出异常</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nil%E6%A3%80%E6%9F%A5"><span class="toc-text">nil检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#BOOL%E7%B1%BB%E5%9E%8B%E9%99%B7%E9%98%B1"><span class="toc-text">BOOL类型陷阱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%9E%E6%80%A7"><span class="toc-text">属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BANSString%E4%BD%BF%E7%94%A8Copy%E5%B1%9E%E6%80%A7"><span class="toc-text">为NSString使用Copy属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%B1%87%E6%80%BB"><span class="toc-text">常用快捷键汇总</span></a></li></ol></div></div></div>
+
+    
+  
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+  <div class='bread-nav fs12'>
+  
+    
+    <div id='breadcrumb'>
+      <a class='cap breadcrumb' href='/'>主页</a>
+      <span class="sep"></span>
+      <a class='cap breadcrumb' href='/'>文章</a>
+      
+        <span class="sep"></span>
+        <a class="cap breadcrumb-link" href="/categories/%E7%BC%96%E7%A8%8B%E8%A7%84%E8%8C%83/">编程规范</a>
+      
+    </div>
+    <div id='post-meta'>
+      发布于&nbsp;<time datetime='2019-03-18T16:00:00.000Z'>2019-03-19</time>
+    </div>
+  
+  </div>
+
+
+<article class='content md post'>
+<h1 class="article-title"><span>编程规范（Objective-C编码规范）</span></h1>
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>统一编程风格，提高的可读性与编码效率，避免团队开发可能带来的混乱。</p>
+<h2 id="适用范围"><a href="#适用范围" class="headerlink" title="适用范围"></a>适用范围</h2><p>本规范适用于公司项目产品运用Objective-C作为开发语言的编码活动。</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>规则 : 编程时必须遵守的约定 </p>
+<p>建议 : 编程时需要考虑的约定 </p>
+<p>绿色代码 : 对此规则或建议给出的正确例子 </p>
+<p>红色代码: 对此规则或建议给出的反面例子 </p>
+<p>匈牙利命名法：是一种编程时的命名规范。基本原则是：变量名＝属性＋类型＋对象描述，其中每一对象的名称都要求有明确含义，可以取对象名字全称或名字的一部分 </p>
+<p>驼峰命名法：就是当变量名或函式名是由一个或多个单字连结在一起，而构成的唯一识别字时，驼峰命名法第一个单字以小写字母开始；第二个单字的首字母大写或每一个单字的首字母都采用大写字母 </p>
+<h2 id="代码布局"><a href="#代码布局" class="headerlink" title="代码布局"></a>代码布局</h2><h3 id="间隔与格式化"><a href="#间隔与格式化" class="headerlink" title="间隔与格式化"></a>间隔与格式化</h3><p>使用<code>tab</code>进行行缩进，代码之间不要使用<code>tab</code>。使用<code>空格</code>进行行缩进，Xcode会自动转成<code>tab</code>缩进。</p>
+<p>函数声明、变量、常量声明等<br>留一个空格在-或+和返回类型之间，但参数列表里的参数之间不要留间隔；<br>函数名与<code>&#123;</code>之间保留一个空格，任何地方<code>&#123;</code>不要单独起一行<br>参数对象的星号前需要加空格，以下是示例代码</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//正确演示</span></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) BSNLHomeModel *homeModel;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>)  <span class="built_in">NSArray</span> *categoryList;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)selectMarketingModel:(BSNLHomeMarketingModel *)marketingModel;</span><br><span class="line">- (<span class="keyword">void</span>)selectFunctionModel:(BSNLHomeFunctionModel *)fuctionModel;</span><br><span class="line">- (<span class="keyword">void</span>)selectHomeAdModel:(BSNLHomeAdModel *)adModel;</span><br><span class="line">- (<span class="keyword">void</span>)selectGoods:(BSNLGoodModel *)goodsModel;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)umengEvent:(<span class="built_in">NSString</span> *)eventId</span><br><span class="line">        attributes:(<span class="built_in">NSDictionary</span> *)attributes</span><br><span class="line">            number:(<span class="built_in">NSNumber</span> *)number &#123;</span><br><span class="line">    <span class="built_in">NSString</span> *numberKey = <span class="string">@&quot;__ct__&quot;</span>;</span><br><span class="line">    <span class="built_in">NSMutableDictionary</span> *mutableDictionary = [<span class="built_in">NSMutableDictionary</span> dictionaryWithDictionary:attributes];</span><br><span class="line">    [mutableDictionary setObject:[number stringValue] forKey:numberKey];</span><br><span class="line">    [MobClick event:eventId attributes:mutableDictionary];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//错误演示</span></span><br><span class="line">-(<span class="keyword">void</span>)umengEvent:(<span class="built_in">NSString</span>*)eventId<span class="comment">//错误1.-前面没有留空格</span></span><br><span class="line">        attributes:(<span class="built_in">NSDictionary</span>*)attributes<span class="comment">//错误2.NSDictionary与*之间没有留空格</span></span><br><span class="line">            number:(<span class="built_in">NSNumber</span>*)number </span><br><span class="line">&#123;<span class="comment">//错误3. &#123;单独起一行</span></span><br><span class="line">    <span class="built_in">NSString</span>* numberKey = <span class="string">@&quot;__ct__&quot;</span>;<span class="comment">//错误4.NSString与*之间没有留空格，*与numberKey不应该留空格</span></span><br><span class="line">    <span class="built_in">NSMutableDictionary</span>* mutableDictionary = [<span class="built_in">NSMutableDictionary</span> dictionaryWithDictionary:attributes];</span><br><span class="line">    [mutableDictionary setObject:[number stringValue] forKey:numberKey];</span><br><span class="line">    [MobClick event:eventId attributes:mutableDictionary];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="代码行长度限制"><a href="#代码行长度限制" class="headerlink" title="代码行长度限制"></a>代码行长度限制</h3><p>码中的每行文本不要超过200个字符的长度。<br>C++的规范是行长度不超过80个文本，考虑到Objective-C语法命名要求尽量详细明了，这里规定每行文本不超过200个字符长度。<br>你可以在Xcode里清楚地发现代码中的违规，设置Xcode&gt;Preferences&gt;TextEditing&gt;勾选Page Guide at culomn，并设置数量为200(之后就可以在代码编辑区域里看到一块指定字符长度的区域)</p>
+<p>函数入参超过3个时，需进行换行显示，如</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//正确演示</span></span><br><span class="line">- (<span class="keyword">void</span>)saveLogWithEventName:(<span class="built_in">NSString</span> *)eventName</span><br><span class="line">                    eventKey:(<span class="built_in">NSString</span> *)eventKey</span><br><span class="line">                    pre_page:(<span class="built_in">NSString</span> *)pre_page</span><br><span class="line">                current_page:(<span class="built_in">NSString</span> *)current_page</span><br><span class="line">                   next_page:(<span class="built_in">NSString</span> *)next_page</span><br><span class="line">                  eventValue:(<span class="built_in">NSDictionary</span> *)eventValue;</span><br><span class="line"></span><br><span class="line">[[BXEventLogManager sharedManager] saveLogWithEventName:eventType</span><br><span class="line">                                               eventKey:eventName</span><br><span class="line">                                               pre_page:prePage</span><br><span class="line">                                           current_page:currentPage</span><br><span class="line">                                              next_page:nextPage</span><br><span class="line">                                             eventValue:param];</span><br><span class="line"></span><br><span class="line"><span class="comment">//错误演示</span></span><br><span class="line">- (<span class="keyword">void</span>)saveLogWithEventName:(<span class="built_in">NSString</span> *)eventName eventKey:(<span class="built_in">NSString</span> *)eventKey pre_page:(<span class="built_in">NSString</span> *)pre_page current_page:(<span class="built_in">NSString</span> *)current_page next_page:(<span class="built_in">NSString</span> *)next_page eventValue:(<span class="built_in">NSDictionary</span> *)eventValue;</span><br><span class="line"></span><br><span class="line">[[BXEventLogManager sharedManager] saveLogWithEventName:eventType eventKey:eventName pre_page:prePage current_page:currentPage next_page:nextPage eventValue:param];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h2><h3 id="文件命名"><a href="#文件命名" class="headerlink" title="文件命名"></a>文件命名</h3><h3 id="Objective-C"><a href="#Objective-C" class="headerlink" title="Objective-C++"></a>Objective-C++</h3><h3 id="类命名"><a href="#类命名" class="headerlink" title="类命名"></a>类命名</h3><h3 id="类别命名"><a href="#类别命名" class="headerlink" title="类别命名"></a>类别命名</h3><h3 id="Objective-C方法命名"><a href="#Objective-C方法命名" class="headerlink" title="Objective-C方法命名"></a>Objective-C方法命名</h3><h3 id="变量命名"><a href="#变量命名" class="headerlink" title="变量命名"></a>变量命名</h3><h3 id="实体变量"><a href="#实体变量" class="headerlink" title="实体变量"></a>实体变量</h3><h3 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h3><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><h3 id="声明注释"><a href="#声明注释" class="headerlink" title="声明注释"></a>声明注释</h3><h3 id="注释内容"><a href="#注释内容" class="headerlink" title="注释内容"></a>注释内容</h3><h2 id="Cocoa和Objective-C特性"><a href="#Cocoa和Objective-C特性" class="headerlink" title="Cocoa和Objective-C特性"></a>Cocoa和Objective-C特性</h2><h3 id="成员变量应该定义为-private"><a href="#成员变量应该定义为-private" class="headerlink" title="成员变量应该定义为@private"></a>成员变量应该定义为@private</h3><h3 id="明确指定初始化"><a href="#明确指定初始化" class="headerlink" title="明确指定初始化"></a>明确指定初始化</h3><h3 id="重写指定初始化"><a href="#重写指定初始化" class="headerlink" title="重写指定初始化"></a>重写指定初始化</h3><h3 id="重写NSObject的方法"><a href="#重写NSObject的方法" class="headerlink" title="重写NSObject的方法"></a>重写NSObject的方法</h3><h3 id="避免调用new方法"><a href="#避免调用new方法" class="headerlink" title="避免调用new方法"></a>避免调用new方法</h3><h3 id="初始化变量"><a href="#初始化变量" class="headerlink" title="初始化变量"></a>初始化变量</h3><h3 id="保持公有API简明"><a href="#保持公有API简明" class="headerlink" title="保持公有API简明"></a>保持公有API简明</h3><h3 id="import和-include"><a href="#import和-include" class="headerlink" title="#import和#include"></a>#import和#include</h3><h3 id="使用根框架"><a href="#使用根框架" class="headerlink" title="使用根框架"></a>使用根框架</h3><h3 id="构建时即设定autorelease"><a href="#构建时即设定autorelease" class="headerlink" title="构建时即设定autorelease"></a>构建时即设定autorelease</h3><h3 id="优先autorelease而非retain"><a href="#优先autorelease而非retain" class="headerlink" title="优先autorelease而非retain"></a>优先autorelease而非retain</h3><h3 id="以声明时的顺序dealloc处理实例变量"><a href="#以声明时的顺序dealloc处理实例变量" class="headerlink" title="以声明时的顺序dealloc处理实例变量"></a>以声明时的顺序dealloc处理实例变量</h3><h3 id="Setters-copy-NSStrings"><a href="#Setters-copy-NSStrings" class="headerlink" title="Setters copy NSStrings"></a>Setters copy NSStrings</h3><h3 id="避免抛出异常"><a href="#避免抛出异常" class="headerlink" title="避免抛出异常"></a>避免抛出异常</h3><h3 id="nil检查"><a href="#nil检查" class="headerlink" title="nil检查"></a>nil检查</h3><h3 id="BOOL类型陷阱"><a href="#BOOL类型陷阱" class="headerlink" title="BOOL类型陷阱"></a>BOOL类型陷阱</h3><h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><h3 id="为NSString使用Copy属性"><a href="#为NSString使用Copy属性" class="headerlink" title="为NSString使用Copy属性"></a>为NSString使用Copy属性</h3><h2 id="常用快捷键汇总"><a href="#常用快捷键汇总" class="headerlink" title="常用快捷键汇总"></a>常用快捷键汇总</h2><p>格式化代码快捷键：<code>Ctrl + i</code></p>
+
+
+<div class="article-footer fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body"><div class="post-title h2"><a href="/2019/03/13/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%EF%BC%88%E8%84%9A%E6%9C%AC%E6%89%93%E5%8C%85%EF%BC%89/">自动化测试（脚本打包）</a></div><div class="post-title fs14"><a href="/2021/05/16/hello-world/">上一篇：Hello World</a></div></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer fs12"><hr><div><p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+<p>本站由 <a href="http://example.com/">@许杜生</a> 创建，使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.1.0">Stellar</a> 作为主题。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script')
+      script.src = src
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.1.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
+    sitesjs: '/js/plugins/sites.js',
+    friendsjs: '/js/plugins/friends.js',
+  };
+
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper/swiper-bundle.min.css","js":"https://unpkg.com/swiper/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

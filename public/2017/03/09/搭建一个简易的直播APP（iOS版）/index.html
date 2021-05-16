@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 5.4.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>搭建一个简易的直播APP（iOS版） - 许杜生の技术博客</title>
+
+  
+    <meta name="description" content="1234567891011121314151617181920212223###  目录1、写在前面2、播放：ijkplayer、VLC    2.1、使用VLC进行播放    2.2、iOS集成ijkplayer进行播放        2.2.1  编译IJKMediaPlayer工程        2.2.2  ijkplayer集成        2.2.1  导出IJKMediaFrame">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建一个简易的直播APP（iOS版）">
+<meta property="og:url" content="http://example.com/2017/03/09/%E6%90%AD%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%93%E7%9A%84%E7%9B%B4%E6%92%ADAPP%EF%BC%88iOS%E7%89%88%EF%BC%89/index.html">
+<meta property="og:site_name" content="许杜生の技术博客">
+<meta property="og:description" content="1234567891011121314151617181920212223###  目录1、写在前面2、播放：ijkplayer、VLC    2.1、使用VLC进行播放    2.2、iOS集成ijkplayer进行播放        2.2.1  编译IJKMediaPlayer工程        2.2.2  ijkplayer集成        2.2.1  导出IJKMediaFrame">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://ohlldt20k.bkt.clouddn.com/hls_1_1.png">
+<meta property="og:image" content="http://ohlldt20k.bkt.clouddn.com/hls_1_7.png">
+<meta property="og:image" content="http://ohlldt20k.bkt.clouddn.com/hls_1_8.png">
+<meta property="og:image" content="http://ohlldt20k.bkt.clouddn.com/hls_1_2.png">
+<meta property="og:image" content="http://ohlldt20k.bkt.clouddn.com/hls_1_6.png">
+<meta property="og:image" content="http://ohlldt20k.bkt.clouddn.com/hls_1_3.png">
+<meta property="og:image" content="http://ohlldt20k.bkt.clouddn.com/hls_1_10.png">
+<meta property="og:image" content="http://ohlldt20k.bkt.clouddn.com/hls_1_9.png">
+<meta property="article:published_time" content="2017-03-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-16T12:11:10.322Z">
+<meta property="article:author" content="许杜生">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ohlldt20k.bkt.clouddn.com/hls_1_1.png">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+</head>
+
+<body>
+  
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left'>
+    
+
+<header class='header'>
+  <div class='logo-wrap'>
+  
+    <a class='avatar' href='/about/'>
+      
+        <img no-lazy class='bg' style='opacity:0' src='https://cdn.jsdelivr.net/gh/cdn-x/placeholder@1.0.2/avatar/round/rainbow64@3x.webp'/>
+      
+      <img no-lazy class='avatar' src='http://img.qqju.com/pic/tx/tx14320s.jpg'/>
+    </a>
+  
+  
+    <a class='title' href='/'>
+      许杜生の技术博客
+    </a>
+  
+</div>
+
+  <nav class="menu dis-select"></nav>
+</header>
+
+<div class='widgets'>
+  
+    
+      
+      
+<div class="widget-wrap" id="toc"><div class="widget-header h4 dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14 post"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E5%86%99%E5%9C%A8%E5%89%8D%E9%9D%A2"><span class="toc-text">1、写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E6%92%AD%E6%94%BE%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%EF%BC%9Aijkplayer%E3%80%81VLC"><span class="toc-text">2、播放环境搭建：ijkplayer、VLC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#emsp-emsp-2-1%E3%80%81Mac%E7%AB%AF%E4%BD%BF%E7%94%A8VLC%E8%BF%9B%E8%A1%8C%E6%92%AD%E6%94%BE"><span class="toc-text">  2.1、Mac端使用VLC进行播放</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#emsp-emsp-2-2%E3%80%81iOS%E9%9B%86%E6%88%90ijkplayer"><span class="toc-text">  2.2、iOS集成ijkplayer</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#emsp-emsp-2-2-1%E3%80%81ijkplayer%E9%9B%86%E6%88%90"><span class="toc-text">  2.2.1、ijkplayer集成</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#emsp-emsp-a-gt-%E4%B8%8B%E8%BD%BDijkplayer%E6%BA%90%E7%A0%81%EF%BC%9A-%E4%B8%8B%E8%BD%BD%E5%9C%B0%E5%9D%80-https-github-com-Bilibili-ijkplayer"><span class="toc-text">   a&gt; 下载ijkplayer源码：(下载地址:https:&#x2F;&#x2F;github.com&#x2F;Bilibili&#x2F;ijkplayer)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#emsp-emsp-b-gt-%E5%AF%BC%E5%85%A5ffmpeg"><span class="toc-text">   b&gt; 导入ffmpeg</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#emsp-emsp-c-gt-%E7%BC%96%E8%AF%91ffmpeg%E5%BA%93"><span class="toc-text">   c&gt; 编译ffmpeg库</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#emsp-emsp-d-gt-%E7%BC%96%E8%AF%91IJKMediaFramework"><span class="toc-text">   d&gt; 编译IJKMediaFramework</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#emsp-emsp-2-3%E3%80%81%E7%BC%96%E5%86%99iOS%E4%BB%A3%E7%A0%81"><span class="toc-text">  2.3、编写iOS代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA%EF%BC%9Anginx-rtmp-ffmpeg"><span class="toc-text">3、服务器搭建：nginx+rtmp+ffmpeg</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#emsp-emsp-3-1%E3%80%81%E5%AE%89%E8%A3%85Homebrew"><span class="toc-text">  3.1、安装Homebrew</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#emsp-emsp-3-2%E3%80%81%E5%AE%89%E8%A3%85nginx"><span class="toc-text">  3.2、安装nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#emsp-emsp-3-3%E3%80%81%E9%85%8D%E7%BD%AErtmp"><span class="toc-text">  3.3、配置rtmp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#emsp-emsp-3-3%E3%80%81%E9%85%8D%E7%BD%AEHLS-Http-Live-Streaming"><span class="toc-text">  3.3、配置HLS(Http Live Streaming)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E6%8E%A8%E6%B5%81%E6%B5%8B%E8%AF%95"><span class="toc-text">4、推流测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#emsp-emsp-4-1%E3%80%81%E4%BD%BF%E7%94%A8ffmepg%E6%8E%A8%E6%B5%81%E6%B5%8B%E8%AF%95"><span class="toc-text">  4.1、使用ffmepg推流测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#emsp-emsp-4-1-1-%E5%AE%89%E8%A3%85ffmepg"><span class="toc-text">  4.1.1 安装ffmepg</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#emsp-emsp-4-2-1-%E6%A8%A1%E6%8B%9Frtmp%E6%8E%A8%E6%B5%81-%E7%9B%B4%E6%92%AD"><span class="toc-text">  4.2.1 模拟rtmp推流(直播)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#emsp-emsp-4-1-3-%E6%A8%A1%E6%8B%9FHLS-%E7%82%B9%E6%92%AD"><span class="toc-text">  4.1.3 模拟HLS(点播)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#emsp-emsp-4-2%E3%80%81iOS%E4%BB%A3%E7%A0%81%E6%8E%A8%E6%B5%81%E6%B5%8B%E8%AF%95"><span class="toc-text">  4.2、iOS代码推流测试</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#emsp-emsp-4-2-1-%E6%B7%BB%E5%8A%A0iOS%E6%8E%A8%E6%B5%81%E4%BB%A3%E7%A0%81"><span class="toc-text">  4.2.1 添加iOS推流代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#emsp-emsp-4-2-2-%E6%A8%A1%E6%8B%9Frtmp%E7%9B%B4%E6%92%AD"><span class="toc-text">  4.2.2 模拟rtmp直播</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#emsp-emsp-4-2-2-%E6%A8%A1%E6%8B%9FHLS%E7%9B%B4%E6%92%AD"><span class="toc-text">  4.2.2 模拟HLS直播</span></a></li></ol></li></ol></li></ol></div></div></div>
+
+    
+  
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+  <div class='bread-nav fs12'>
+  
+    
+    <div id='breadcrumb'>
+      <a class='cap breadcrumb' href='/'>主页</a>
+      <span class="sep"></span>
+      <a class='cap breadcrumb' href='/'>文章</a>
+      
+        <span class="sep"></span>
+        <a class="cap breadcrumb-link" href="/categories/%E7%9B%B4%E6%92%AD/">直播</a>
+      
+    </div>
+    <div id='post-meta'>
+      发布于&nbsp;<time datetime='2017-03-08T16:00:00.000Z'>2017-03-09</time>
+    </div>
+  
+  </div>
+
+
+<article class='content md post'>
+<h1 class="article-title"><span>搭建一个简易的直播APP（iOS版）</span></h1>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">###  目录</span><br><span class="line">1、写在前面</span><br><span class="line">2、播放：ijkplayer、VLC</span><br><span class="line">    2.1、使用VLC进行播放</span><br><span class="line">    2.2、iOS集成ijkplayer进行播放</span><br><span class="line">        2.2.1  编译IJKMediaPlayer工程</span><br><span class="line">        2.2.2  ijkplayer集成</span><br><span class="line">        2.2.1  导出IJKMediaFramework.frameword</span><br><span class="line">    2.3、编写iOS代码</span><br><span class="line">3、服务器：nginx+rtmp+ffmpeg</span><br><span class="line">    3.1、安装Homebrew</span><br><span class="line">    3.2、安装nginx</span><br><span class="line">    3.3、配置rtmp</span><br><span class="line">    3.4、配置HLS（Http Live Streaming）</span><br><span class="line">4、推流测试（直播模拟）</span><br><span class="line">    4.1、使用ffmepg推流测试</span><br><span class="line">        4.1.1 安装ffmepg</span><br><span class="line">        4.1.2 模拟rtmp直播</span><br><span class="line">        4.1.3 模拟HLS点播</span><br><span class="line">    4.2、iOS代码推流测试</span><br><span class="line">        4.2.1 添加iOS推流代码</span><br><span class="line">        4.2.1 模拟rtmp直播</span><br><span class="line">        4.2.2 模拟HLS直播</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="1、写在前面"><a href="#1、写在前面" class="headerlink" title="1、写在前面"></a>1、写在前面</h2><p>&emsp;&emsp;最近又重新翻看了一下iOS相关的点播与直播资料，也踩了不少坑。网上也有不少相关资料，但是完整直播流程一直走不通，要么是电脑推流手机播放，要么是电脑推流电脑播放，至于手机推流的完整demo相对较少，无法很直观的体会完整的手机直播，即手机推流与手机播放。<br>&emsp;&emsp;本例将借助nginx+rtmp+ffmpeg搭建一个简单的直播系统，通过手机采集音视频，经过简单的图像处理和编码，再将流推到自己搭建的服务器上（顺带介绍一下电脑推流），最后通过手机和电脑进行播放了。<br>&emsp;&emsp;一个完整的直播系统需要涉及到的技术及流程主要包括以下方面：</p>
+<pre><code>采集 =&gt; 图像处理 =&gt; 编码 =&gt; 推流 =&gt; CDN分发 =&gt; 拉流 =&gt; 解码 =&gt; 播放 =&gt; 聊天互动。    
+</code></pre>
+<p>&emsp;&emsp;在本例中，采集=&gt;滤镜处理=&gt;编码=&gt;推流由LFLiveKit来完成，其中图像处理交给GPUImage库完成，而LFLiveKit已经集成了GPUImage库；CDN分发就是搭建的本地服务器；拉流=&gt;解码=&gt;播放由ijkplayer库来完成；聊天互动属于IM范畴，这里就讨论了，有兴趣的朋友可以自行搜索。这里重点是操作，没有太多涉及理论的东西，目的是希望通过一个简单的例子，加深对直播的理解。后续也会慢慢补上直播中各个技术的理论知识与demo。</p>
+<h2 id="2、播放环境搭建：ijkplayer、VLC"><a href="#2、播放环境搭建：ijkplayer、VLC" class="headerlink" title="2、播放环境搭建：ijkplayer、VLC"></a>2、播放环境搭建：ijkplayer、VLC</h2><p>&emsp;&emsp; VLC：电脑版的播放器，用于模拟在电脑端播放。<br>&emsp;&emsp; ijkplayer：是基于FFmpeg的跨平台播放器框架，github地址：<a target="_blank" rel="noopener" href="https://github.com/Bilibili/ijkplayer%EF%BC%8C">https://github.com/Bilibili/ijkplayer，</a> iOS版的播放器将使用ijkplayer框架进行集成。<br>&emsp;&emsp; 先提供一个播放源数据：<a target="_blank" rel="noopener" href="http://116.211.167.106/api/live/aggregation?uid=133825214&amp;interest=1">http://116.211.167.106/api/live/aggregation?uid=133825214&amp;interest=1</a>, 复制链接到浏览器中打开，会返回一个json格式的数据，其中一个stream_addr的值就是一个播放源。（感谢@袁峥Seemygo提供）。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://ohlldt20k.bkt.clouddn.com/hls_1_1.png" alt="image"></p>
+<h3 id="emsp-emsp-2-1、Mac端使用VLC进行播放"><a href="#emsp-emsp-2-1、Mac端使用VLC进行播放" class="headerlink" title="&emsp;&emsp;2.1、Mac端使用VLC进行播放"></a>&emsp;&emsp;2.1、Mac端使用VLC进行播放</h3><p>&emsp;&emsp;百度下载mac版的VLC进行安装，打开VLC，File -&gt; Open Network…<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://ohlldt20k.bkt.clouddn.com/hls_1_7.png" alt="image"></p>
+<h3 id="emsp-emsp-2-2、iOS集成ijkplayer"><a href="#emsp-emsp-2-2、iOS集成ijkplayer" class="headerlink" title="&emsp;&emsp;2.2、iOS集成ijkplayer"></a>&emsp;&emsp;2.2、iOS集成ijkplayer</h3><h4 id="emsp-emsp-2-2-1、ijkplayer集成"><a href="#emsp-emsp-2-2-1、ijkplayer集成" class="headerlink" title="&emsp;&emsp;2.2.1、ijkplayer集成"></a>&emsp;&emsp;2.2.1、ijkplayer集成</h4><h5 id="emsp-emsp-a-gt-下载ijkplayer源码：-下载地址-https-github-com-Bilibili-ijkplayer"><a href="#emsp-emsp-a-gt-下载ijkplayer源码：-下载地址-https-github-com-Bilibili-ijkplayer" class="headerlink" title="&emsp;&emsp; a&gt; 下载ijkplayer源码：(下载地址:https://github.com/Bilibili/ijkplayer)"></a>&emsp;&emsp; a&gt; 下载ijkplayer源码：(下载地址:<a target="_blank" rel="noopener" href="https://github.com/Bilibili/ijkplayer">https://github.com/Bilibili/ijkplayer</a>)</h5><h5 id="emsp-emsp-b-gt-导入ffmpeg"><a href="#emsp-emsp-b-gt-导入ffmpeg" class="headerlink" title="&emsp;&emsp; b&gt; 导入ffmpeg"></a>&emsp;&emsp; b&gt; 导入ffmpeg</h5><p>&emsp;&emsp;ijkplayer是基于ffmpeg这个库的，因此需要导入ffmpeg库<br>&emsp;&emsp;打开终端，cd到ijkplayer所在目录，可以看到init-ios.sh的脚本文件，运行脚本文件:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> ./init-ios.sh</span></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp;等待一段时间….运行完成以后，ios文件夹下面会多出来四个文件夹，分别是ffmpeg-arm64、ffmpeg-armv7、ffmpeg-i386、ffmpeg-x86_64。  </p>
+<h5 id="emsp-emsp-c-gt-编译ffmpeg库"><a href="#emsp-emsp-c-gt-编译ffmpeg库" class="headerlink" title="&emsp;&emsp; c&gt; 编译ffmpeg库"></a>&emsp;&emsp; c&gt; 编译ffmpeg库</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//依次执行</span><br><span class="line">//进入ios文件夹</span><br><span class="line">$ cd ios</span><br><span class="line"></span><br><span class="line">//删除一些文件和文件夹，为编译ffmpeg.sh做准备，在编译ffmpeg.sh的时候，会自动创建刚刚删除的那些文件，为避免文件名冲突，因此在编译ffmpeg.sh之前先删除等会会自动创建的文件夹或者文件</span><br><span class="line">$ ./compile-ffmpeg.sh clean</span><br><span class="line"></span><br><span class="line">//真正的编译各个平台的ffmpeg库，并生成所有平台的通用库。</span><br><span class="line">$ ./compile-ffmpeg.sh all</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>&emsp;&emsp; 双击进入ios文件夹，打开IJKMediaPlayer工程，查看Class-IJKFFMoviePlayerController-ffmpeg-lib下的.a文件，如果文件一片红，说明ffmpeg的编译失败，请重复b、c操作。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://ohlldt20k.bkt.clouddn.com/hls_1_8.png" alt="image"></p>
+<h5 id="emsp-emsp-d-gt-编译IJKMediaFramework"><a href="#emsp-emsp-d-gt-编译IJKMediaFramework" class="headerlink" title="&emsp;&emsp; d&gt; 编译IJKMediaFramework"></a>&emsp;&emsp; d&gt; 编译IJKMediaFramework</h5><p>&emsp;&emsp;集成ijkplayer的方法有两种，一种是将以上运行成功的IJKMediaPlayer工程中的IJKMediaPlayer.xcodeproj直接导入目标工程，在这里不做介绍;<br>&emsp;&emsp;另外一种就是将ijkplayer打包成framework导入工程。  </p>
+<h6 id="emsp-emsp-e-1-打开IJKMediaPlayer工程"><a href="#emsp-emsp-e-1-打开IJKMediaPlayer工程" class="headerlink" title="&emsp;&emsp; e.1 打开IJKMediaPlayer工程"></a>&emsp;&emsp; e.1 打开IJKMediaPlayer工程</h6><h6 id="emsp-emsp-e-2-设置工程的scheme"><a href="#emsp-emsp-e-2-设置工程的scheme" class="headerlink" title="&emsp;&emsp; e.2 设置工程的scheme"></a>&emsp;&emsp; e.2 设置工程的scheme</h6><p>选择product-Scheme-Edit Scheme<br>选择run下面的Build Configuration为release，如图<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://ohlldt20k.bkt.clouddn.com/hls_1_2.png" alt="image"></p>
+<h6 id="emsp-emsp-e-3-设置好scheme以后，分别选择真机和模拟器进行编译（重要：编译前记得clean一下），编译完成以后，选择Product下面的IJKMediaFramework-framework，进入finder，如图"><a href="#emsp-emsp-e-3-设置好scheme以后，分别选择真机和模拟器进行编译（重要：编译前记得clean一下），编译完成以后，选择Product下面的IJKMediaFramework-framework，进入finder，如图" class="headerlink" title="&emsp;&emsp; e.3 设置好scheme以后，分别选择真机和模拟器进行编译（重要：编译前记得clean一下），编译完成以后，选择Product下面的IJKMediaFramework.framework，进入finder，如图"></a>&emsp;&emsp; e.3 设置好scheme以后，分别选择真机和模拟器进行编译（重要：编译前记得clean一下），编译完成以后，选择Product下面的IJKMediaFramework.framework，进入finder，如图</h6><p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://ohlldt20k.bkt.clouddn.com/hls_1_6.png" alt="image"></p>
+<p>Release-iphoneos是真机版本的framework，只能跑真机，不能跑模拟器；<br>Release-iphonesimulator是模拟器版本的framework，只能跑模拟器，不能跑真机；<br>如果希望真机与模拟器都能运行，那么就需要对这两个framework进行合并。  </p>
+<h6 id="emsp-emsp-e-4-合并真机与模拟器版本的framework"><a href="#emsp-emsp-e-4-合并真机与模拟器版本的framework" class="headerlink" title="&emsp;&emsp; e.4 合并真机与模拟器版本的framework"></a>&emsp;&emsp; e.4 合并真机与模拟器版本的framework</h6><p>//注意：合并的目标是<br>Release-iphoneos/IJKMediaFramework.framework/IJKMediaFramework<br>Release-iphonesimulator/IJKMediaFramework.framework/IJKMediaFramework</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//合并代码</span><br><span class="line">//$ lipo -create &quot;真机版路径&quot; &quot;模拟器版路径&quot; -output &quot;合并后的版本路径&quot;</span><br><span class="line">//比如我的：</span><br><span class="line">$ lipo -create /Users/Hmily/Desktop/framework/Release-iphoneos/IJKMediaFramework.framework/IJKMediaFramework /Users/Hmily/Desktop/framework/Release-iphonesimulator/IJKMediaFramework.framework/IJKMediaFramework -output /Users/Hmily/Desktop/framework/IJKMediaFramework</span><br></pre></td></tr></table></figure>
+
+<p>复制Release-iphoneos文件夹，粘贴并命名为Release-iphonesimulator-OS<br>将Release-iphonesimulator-OS/IJKMediaFramework.framework/IJKMediaFramework<br>替换为刚刚合并生成的IJKMediaFramework<br>至此，真机与模拟器版的framework制作完成。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://ohlldt20k.bkt.clouddn.com/hls_1_3.png" alt="image"></p>
+<h6 id="emsp-emsp-e-5-将IJKMediaFramework-framework集成到xcode工程中"><a href="#emsp-emsp-e-5-将IJKMediaFramework-framework集成到xcode工程中" class="headerlink" title="&emsp;&emsp; e.5 将IJKMediaFramework.framework集成到xcode工程中"></a>&emsp;&emsp; e.5 将IJKMediaFramework.framework集成到xcode工程中</h6><p>将IJKMediaFramework.framework添加到自己的工程中，并添加以下库支持</p>
+<pre><code>AudioToolbox.framework         
+AVFoundation.framework
+CoreMedia.framework
+CoreVideo.framework
+libbz2.tbd
+libz.tbd
+MediaPlayer.framework
+MobileCoreServices.framework
+OpenGLES.framework
+VideoToolbox.framework
+</code></pre>
+<h3 id="emsp-emsp-2-3、编写iOS代码"><a href="#emsp-emsp-2-3、编写iOS代码" class="headerlink" title="&emsp;&emsp;2.3、编写iOS代码"></a>&emsp;&emsp;2.3、编写iOS代码</h3><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    <span class="keyword">self</span>.view.backgroundColor = [<span class="built_in">UIColor</span> whiteColor];</span><br><span class="line">    <span class="built_in">NSString</span> * videoUrl = <span class="keyword">self</span>.videoInfo[<span class="string">@&quot;stream_addr&quot;</span>];</span><br><span class="line">    <span class="comment">//videoUrl = @&quot;rtmp://live.hkstv.hk.lxdns.com:1935/live/stream1555&quot;;</span></span><br><span class="line">    <span class="keyword">self</span>.player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:videoUrl withOptions:<span class="literal">nil</span>];</span><br><span class="line">    [_player prepareToPlay];</span><br><span class="line">    [<span class="keyword">self</span>.view addSubview:_player.view];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewWillDisappear:(<span class="built_in">BOOL</span>)animated&#123;</span><br><span class="line">    [<span class="keyword">super</span> viewWillDisappear:animated];</span><br><span class="line">    [_player pause];</span><br><span class="line">    [_player stop];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)dealloc&#123;</span><br><span class="line">    _player = <span class="literal">nil</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、服务器搭建：nginx-rtmp-ffmpeg"><a href="#3、服务器搭建：nginx-rtmp-ffmpeg" class="headerlink" title="3、服务器搭建：nginx+rtmp+ffmpeg"></a>3、服务器搭建：nginx+rtmp+ffmpeg</h2><p>上面我们完成了播放器的搭建，接下来我们搭建一个属于自己的服务器。</p>
+<h3 id="emsp-emsp-3-1、安装Homebrew"><a href="#emsp-emsp-3-1、安装Homebrew" class="headerlink" title="&emsp;&emsp;3.1、安装Homebrew"></a>&emsp;&emsp;3.1、安装Homebrew</h3><p>打开终端，输入： </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="emsp-emsp-3-2、安装nginx"><a href="#emsp-emsp-3-2、安装nginx" class="headerlink" title="&emsp;&emsp;3.2、安装nginx"></a>&emsp;&emsp;3.2、安装nginx</h3><p>依次输入以下的命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//从github下载Nginx到本地,增加home-brew对nginx的扩展：   </span><br><span class="line">$ brew tap homebrew/nginx</span><br><span class="line"></span><br><span class="line">//安装Nginx服务器和rtmp模块:</span><br><span class="line">$ brew install nginx-full --with-rtmp-module</span><br><span class="line"></span><br><span class="line">//启动nginx服务器</span><br><span class="line">$ nginx</span><br></pre></td></tr></table></figure>
+<p>在浏览器地址栏输入：<a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a> （直接点击）<br>如果出现下图, 则表示安装成功。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://ohlldt20k.bkt.clouddn.com/hls_1_10.png" alt="image"></p>
+<h3 id="emsp-emsp-3-3、配置rtmp"><a href="#emsp-emsp-3-3、配置rtmp" class="headerlink" title="&emsp;&emsp;3.3、配置rtmp"></a>&emsp;&emsp;3.3、配置rtmp</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//查看nginx信息</span><br><span class="line">$ brew info nginx-full</span><br></pre></td></tr></table></figure>
+
+
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://ohlldt20k.bkt.clouddn.com/hls_1_9.png" alt="image"></p>
+<p>打开/usr/local/etc/nginx/nginx.conf文件，在最后面插入以下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">rtmp &#123;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen 9090;            #监听接口号</span><br><span class="line"></span><br><span class="line">        #RTMP协议</span><br><span class="line">        application rmspApp &#123;   #app名称</span><br><span class="line">            live on;</span><br><span class="line">            record off;          #不记录数据</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        #HLS协议，如果不需要HLS协议，这部分可以删除</span><br><span class="line">        #application hls&#123;</span><br><span class="line">        #   live on;             #开启实时</span><br><span class="line">        #   hls on;              #开始HLS</span><br><span class="line">        #   hls_fragment 1s;     #切片时长</span><br><span class="line">        #   hls_path /usr/local/var/www/hls;     #ts文件保存路劲</span><br><span class="line">        # &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>重新加载nginx的配置文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ nginx -s reload</span><br><span class="line"></span><br><span class="line">//RTMP推流地址：rtmp://192.168.2.107:9090/rmspApp/133009（133009为模拟的房间号）</span><br><span class="line">//RTMP播放地址：rtmp://192.168.2.107:9090/rmspApp/133009（133009为模拟的房间号）</span><br></pre></td></tr></table></figure>
+
+<h3 id="emsp-emsp-3-3、配置HLS-Http-Live-Streaming"><a href="#emsp-emsp-3-3、配置HLS-Http-Live-Streaming" class="headerlink" title="&emsp;&emsp;3.3、配置HLS(Http Live Streaming)"></a>&emsp;&emsp;3.3、配置HLS(Http Live Streaming)</h3><p>打开/usr/local/etc/nginx/nginx.conf文件，找到配置http的部分，在’{}’内插入以下配置信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#这个配置为了`客户端`能够以http协议获取HLS的拉流</span><br><span class="line">server &#123;</span><br><span class="line">    listen:9088;</span><br><span class="line">    location /hls &#123;</span><br><span class="line">        types &#123;</span><br><span class="line">            application/vnd.apple.mpegurl m3u8;</span><br><span class="line">            video/mp2t ts;</span><br><span class="line">        &#125;</span><br><span class="line">        root html;</span><br><span class="line">        add_header Cache-Control no-cache;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>找到rtmp下的server，在’{ }’中增加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#HLS协议</span><br><span class="line">application hls&#123;</span><br><span class="line">    live on;             #开启实时</span><br><span class="line">    hls on;              #开始HLS</span><br><span class="line">    hls_fragment 1s;     #切片时长</span><br><span class="line">    hls_path /usr/local/var/www/hls;     #ts文件保存路劲</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>重新加载nginx的配置文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ nginx -s reload</span><br><span class="line"></span><br><span class="line">//HLS推流地址：http://192.168.2.107:9090/hls/abc</span><br><span class="line">//HLS播放地址：http://192.168.2.107:9088/hls/abc.m3u8(主要端口号的变化)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<p><code>注意</code>：HLS中，我们想把推流生成的ts文件存放在<code>指定的目录</code>下，比如”/tmp/hls”  </p>
+<pre><code>application hls &#123;
+    live on;
+    hls on;
+    hls_path /tmp/hls;
+&#125;
+</code></pre>
+<p>那么，我们也需要在http–&gt;server中对root 路径更改为：/tmp 。要不然，会拉不到流。</p>
+<pre><code>location /hls &#123;
+    types &#123;
+    application/vnd.apple.mpegurl m3u8;
+    video/mp2t ts;
+&#125;
+root html;===&gt;更改为root /tmp
+//root html 是指使用当前nginx服务器根目录所在位置,指向的是 /usr/local/var/www 这个目录
+</code></pre>
+<p>至此服务器的配置就算完成了，接下来我们进行推流，并进行直播测试</p>
+<h2 id="4、推流测试"><a href="#4、推流测试" class="headerlink" title="4、推流测试"></a>4、推流测试</h2><h3 id="emsp-emsp-4-1、使用ffmepg推流测试"><a href="#emsp-emsp-4-1、使用ffmepg推流测试" class="headerlink" title="&emsp;&emsp;4.1、使用ffmepg推流测试"></a>&emsp;&emsp;4.1、使用ffmepg推流测试</h3><h4 id="emsp-emsp-4-1-1-安装ffmepg"><a href="#emsp-emsp-4-1-1-安装ffmepg" class="headerlink" title="&emsp;&emsp;4.1.1 安装ffmepg"></a>&emsp;&emsp;4.1.1 安装ffmepg</h4><p>终端输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install ffmpeg</span><br></pre></td></tr></table></figure>
+
+<h4 id="emsp-emsp-4-2-1-模拟rtmp推流-直播"><a href="#emsp-emsp-4-2-1-模拟rtmp推流-直播" class="headerlink" title="&emsp;&emsp;4.2.1 模拟rtmp推流(直播)"></a>&emsp;&emsp;4.2.1 模拟rtmp推流(直播)</h4><p>使用ffmepg对视频编码<br>准备一个视频文件，终端cd到该文件所在的目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Hmily$ cd /Users/Hmily/Desktop/rtmp</span><br><span class="line">Hmily$ ls</span><br><span class="line">mtv.mp4</span><br><span class="line"></span><br><span class="line">//推流</span><br><span class="line">Hmily$ ffmpeg -re -i mtv.mp4 -vcodec libx264 -acodec aac -strict -2 -f flv rtmp://10.3.9.10:9090/rmspApp/133009</span><br><span class="line">//直播会有多个直播室，这里随便弄一个编号133009模拟</span><br><span class="line"></span><br><span class="line">//播放：</span><br><span class="line">//使用FLV播放</span><br><span class="line">//File -&gt; Open Network…</span><br><span class="line">//RUL中输入  rtmp://10.3.9.10:9090/rmspApp/133009</span><br><span class="line"></span><br><span class="line">//iOS使用ijkplayer播放</span><br><span class="line">//NSString * videoUrl = @&quot;rtmp://10.3.9.10:9090/rmspApp/133009&quot;;</span><br><span class="line">//self.player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:videoUrl withOptions:nil];</span><br><span class="line">//[_player prepareToPlay];</span><br><span class="line">//[self.view addSubview:_player.view];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="emsp-emsp-4-1-3-模拟HLS-点播"><a href="#emsp-emsp-4-1-3-模拟HLS-点播" class="headerlink" title="&emsp;&emsp;4.1.3 模拟HLS(点播)"></a>&emsp;&emsp;4.1.3 模拟HLS(点播)</h4><p>使用ffmepg对视频编码<br>准备一个视频文件，终端cd到该文件所在的目录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Hmily$ cd /Users/Hmily/Desktop/hls</span><br><span class="line">Hmily$ ls</span><br><span class="line">mtv.mp4</span><br><span class="line"></span><br><span class="line">//编码切片</span><br><span class="line">Hmily$ ffmpeg -i mtv.mp4 -c:v libx264 -c:a copy -f hls mtv.m3u8</span><br><span class="line"></span><br><span class="line">//接下来是漫长的等待...  </span><br><span class="line">//ffmpeg正在将mtv.mp4切成一个个很小的ts文件，并生成一个mtv.m3u8的索引文件。</span><br><span class="line">//编码完成以后</span><br><span class="line">Hmily$ ls </span><br><span class="line">mtv.mp4 	mtv.m3u8    mtv12.ts	mtv19.ts	mtv25.ts	</span><br><span class="line">mtv4.ts 	mtv13.ts	mtv2.ts		mtv26.ts	mtv5.ts</span><br><span class="line">mtv14.ts	mtv20.ts	mtv27.ts	mtv6.ts     mtv30.ts</span><br><span class="line">mtv0.ts		mtv15.ts	mtv21.ts	mtv28.ts	mtv7.ts</span><br><span class="line">mtv1.ts		mtv16.ts	mtv22.ts	mtv29.ts	mtv8.ts</span><br><span class="line">mtv10.ts	mtv17.ts	mtv23.ts	mtv3.ts		mtv9.ts</span><br><span class="line">mtv11.ts	mtv18.ts	mtv24.ts	</span><br></pre></td></tr></table></figure>
+
+<p>播放：<br>切片完成以后，将hls文件夹拷贝到/usr/local/var/www目录下。<br>使用Safari播放：打开Safari，输入”<a target="_blank" rel="noopener" href="http://localhost:9090/hls/mtv.m3u8&quot;%EF%BC%8C%E5%9B%9E%E8%BD%A6%E3%80%82%EF%BC%88%E8%BF%99%E9%87%8Clocalhost%E6%98%AF%E6%9C%AC%E6%9C%BAIP%E5%9C%B0%E5%9D%80%EF%BC%9A10.3.9.103%EF%BC%89">http://localhost:9090/hls/mtv.m3u8&quot;，回车。（这里localhost是本机IP地址：10.3.9.103）</a><br>iOS自带m3u8解码播放功能，打开Safari，输入”<a target="_blank" rel="noopener" href="http://10.3.9.103:9090/hls/mtv.m3u8&quot;%E4%B9%9F%E5%8F%AF%E4%BB%A5%E8%BF%9B%E8%A1%8C%E6%92%AD%E6%94%BE%EF%BC%8C%E6%88%96%E8%80%85%E5%9C%A8%E4%BB%A3%E7%A0%81%E4%B8%AD%E4%BD%BF%E7%94%A8UIWebView%E5%8A%A0%E8%BD%BD%E4%B9%9F%E6%98%AF%E5%8F%AF%E4%BB%A5%E6%92%AD%E6%94%BE%E7%9A%84%E3%80%82">http://10.3.9.103:9090/hls/mtv.m3u8&quot;也可以进行播放，或者在代码中使用UIWebView加载也是可以播放的。</a></p>
+<h3 id="emsp-emsp-4-2、iOS代码推流测试"><a href="#emsp-emsp-4-2、iOS代码推流测试" class="headerlink" title="&emsp;&emsp;4.2、iOS代码推流测试"></a>&emsp;&emsp;4.2、iOS代码推流测试</h3><h4 id="emsp-emsp-4-2-1-添加iOS推流代码"><a href="#emsp-emsp-4-2-1-添加iOS推流代码" class="headerlink" title="&emsp;&emsp;4.2.1 添加iOS推流代码"></a>&emsp;&emsp;4.2.1 添加iOS推流代码</h4><p>添加LFLiveKit库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#source &#x27;https://github.com/CocoaPods/Specs.git&#x27;</span><br><span class="line">#source &lt;your private repo containing ijkplayer, FFmpeg4ijkplayer-ios-bin&gt;</span><br><span class="line"></span><br><span class="line">target ‘HLS’ do</span><br><span class="line">    platform :ios, &#x27;8.0&#x27;</span><br><span class="line">    pod &#x27;SDWebImage&#x27;, &#x27;~&gt; 3.7.3&#x27;</span><br><span class="line">    pod &#x27;LFLiveKit&#x27;, &#x27;~&gt; 2.5&#x27;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+<p>添加OC代码<br>LivePreviewController.h</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  Created by Hmily on 2016/12/5.</span></span><br><span class="line"><span class="comment">//  Copyright © 2016年 Hmily. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#import <span class="meta-string">&lt;UIKit/UIKit.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">LivePreviewController</span> : <span class="title">UIViewController</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span> </span><br></pre></td></tr></table></figure>
+
+
+<p>LivePreviewController.m</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  Created by Hmily on 2016/12/5.</span></span><br><span class="line"><span class="comment">//  Copyright © 2016年 Hmily. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#import <span class="meta-string">&quot;LivePreviewController.h&quot;</span></span></span><br><span class="line"><span class="meta">#import <span class="meta-string">&quot;LFLiveKit.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">LivePreviewController</span> ()&lt;<span class="title">LFLiveSessionDelegate</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UIButton</span> *startLiveButton;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) LFLiveSession *session;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>) <span class="built_in">UILabel</span> *stateLabel;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">copy</span>) <span class="built_in">NSString</span> * streamUrl;<span class="comment">//推流的地址</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">LivePreviewController</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">    [<span class="keyword">super</span> viewDidLoad];</span><br><span class="line">    <span class="keyword">self</span>.view.backgroundColor = [<span class="built_in">UIColor</span> yellowColor];</span><br><span class="line">    [<span class="keyword">self</span> requestAccessForVideo];</span><br><span class="line">    [<span class="keyword">self</span> requestAccessForAudio];</span><br><span class="line">    [<span class="keyword">self</span>.view addSubview:<span class="keyword">self</span>.stateLabel];</span><br><span class="line">    [<span class="keyword">self</span>.view addSubview:<span class="keyword">self</span>.startLiveButton];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">self</span>.session = [[LFLiveSession alloc] initWithAudioConfiguration:[LFLiveAudioConfiguration defaultConfiguration]</span><br><span class="line">                                                  videoConfiguration:[LFLiveVideoConfiguration defaultConfiguration]</span><br><span class="line">                                                         captureType:LFLiveCaptureDefaultMask];</span><br><span class="line"></span><br><span class="line">    _session.delegate = <span class="keyword">self</span>;</span><br><span class="line">    _session.showDebugInfo = <span class="literal">NO</span>;</span><br><span class="line">    _session.preView = <span class="keyword">self</span>.view;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//self.streamUrl = @&quot;rtmp://live.hkstv.hk.lxdns.com:1935/live/stream1555&quot;;//网上现的RTMP服务器，无需配置本地服务器</span></span><br><span class="line">    <span class="comment">//self.streamUrl = @&quot;rtmp://10.3.9.103:9090/rmspApp/133009&quot;;//自己搭建的本地RTMP服务器</span></span><br><span class="line">    <span class="keyword">self</span>.streamUrl = <span class="string">@&quot;http://10.3.9.103:9090/hls/133009&quot;</span>;<span class="comment">//HLS本地服务器</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> mark - UI</span></span><br><span class="line"><span class="comment">//TODO：直播按钮</span></span><br><span class="line">- (<span class="built_in">UIButton</span> *)startLiveButton &#123;</span><br><span class="line">    <span class="keyword">if</span> (!_startLiveButton) &#123;</span><br><span class="line">        <span class="keyword">self</span>.startLiveButton = [<span class="built_in">UIButton</span> buttonWithType:<span class="built_in">UIButtonTypeCustom</span>];</span><br><span class="line">        <span class="built_in">CGRect</span> frame = <span class="built_in">CGRectZero</span>;</span><br><span class="line">        frame.size = <span class="built_in">CGSizeMake</span>(<span class="built_in">CGRectGetWidth</span>(<span class="keyword">self</span>.view.bounds) - <span class="number">60</span>, <span class="number">44</span>);</span><br><span class="line">        frame.origin = <span class="built_in">CGPointMake</span>(<span class="number">30</span>, <span class="built_in">CGRectGetHeight</span>(<span class="keyword">self</span>.view.bounds) - <span class="number">90</span>);</span><br><span class="line">        _startLiveButton.frame = frame;</span><br><span class="line">        _startLiveButton.layer.cornerRadius = <span class="built_in">CGRectGetHeight</span>(frame)/<span class="number">2</span>;</span><br><span class="line">        [_startLiveButton setTitleColor:[<span class="built_in">UIColor</span> blackColor] forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">        [_startLiveButton.titleLabel setFont:[<span class="built_in">UIFont</span> systemFontOfSize:<span class="number">16</span>]];</span><br><span class="line">        [_startLiveButton setTitle:<span class="string">@&quot;开始直播&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">        [_startLiveButton setBackgroundColor:[<span class="built_in">UIColor</span> colorWithRed:<span class="number">50</span> green:<span class="number">32</span> blue:<span class="number">245</span> alpha:<span class="number">1</span>]];</span><br><span class="line">        _startLiveButton.exclusiveTouch = <span class="literal">YES</span>;</span><br><span class="line">        [_startLiveButton addTarget:<span class="keyword">self</span></span><br><span class="line">                             action:<span class="keyword">@selector</span>(startLiveButtonClick:)</span><br><span class="line">                   forControlEvents:<span class="built_in">UIControlEventTouchUpInside</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">return</span> _startLiveButton;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> mark - 事件响应</span></span><br><span class="line">- (<span class="keyword">void</span>)startLiveButtonClick:(<span class="built_in">UIButton</span> *)startLiveButton&#123;</span><br><span class="line">    _startLiveButton.selected = !_startLiveButton.selected;</span><br><span class="line">    <span class="keyword">if</span> (_startLiveButton.selected) &#123;</span><br><span class="line">        [_startLiveButton setTitle:<span class="string">@&quot;结束直播&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">        LFLiveStreamInfo *stream = [LFLiveStreamInfo new];</span><br><span class="line">        <span class="comment">//stream.url = @&quot;rtmp://live.hkstv.hk.lxdns.com:1935/live/stream1555&quot;;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//stream.url = @&quot;rtmp://10.3.9.103:1990/liveApp/abc&quot;;//RTMP</span></span><br><span class="line">        <span class="comment">//stream.url = @&quot;rtmp://192.168.2.107:1990/liveApp/abc&quot;;//RTMP</span></span><br><span class="line">        stream.url = <span class="string">@&quot;http://10.3.9.103:1990/hls/abc&quot;</span>;<span class="comment">//HLS</span></span><br><span class="line">        <span class="comment">//stream.url = @&quot;http://192.168.2.107:1990/hls/abc&quot;;//HLS</span></span><br><span class="line">        [_session startLive:stream];</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        [_startLiveButton setTitle:<span class="string">@&quot;开始直播&quot;</span> forState:<span class="built_in">UIControlStateNormal</span>];</span><br><span class="line">        [_session stopLive];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> mark - 设备是否可用</span></span><br><span class="line"><span class="comment">//<span class="doctag">TODO:</span>判断视频设备是否可用</span></span><br><span class="line">- (<span class="keyword">void</span>)requestAccessForVideo &#123;</span><br><span class="line">    __<span class="keyword">weak</span> <span class="keyword">typeof</span>(<span class="keyword">self</span>) weakSelf = <span class="keyword">self</span>;</span><br><span class="line">    <span class="built_in">AVAuthorizationStatus</span> status = [<span class="built_in">AVCaptureDevice</span> authorizationStatusForMediaType:<span class="built_in">AVMediaTypeVideo</span>];</span><br><span class="line">    <span class="keyword">switch</span> (status) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="built_in">AVAuthorizationStatusNotDetermined</span>: &#123;</span><br><span class="line">            <span class="comment">// 许可对话没有出现，发起授权许可</span></span><br><span class="line">            [<span class="built_in">AVCaptureDevice</span> requestAccessForMediaType:<span class="built_in">AVMediaTypeVideo</span> completionHandler:^(<span class="built_in">BOOL</span> granted) &#123;</span><br><span class="line">                <span class="keyword">if</span> (granted) &#123;</span><br><span class="line">                    <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                        [weakSelf.session setRunning:<span class="literal">YES</span>];</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="built_in">AVAuthorizationStatusAuthorized</span>: &#123;</span><br><span class="line">        <span class="comment">// 已经开启授权，可继续</span></span><br><span class="line">            <span class="built_in">dispatch_async</span>(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">                [weakSelf.session setRunning:<span class="literal">YES</span>];</span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="built_in">AVAuthorizationStatusDenied</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="built_in">AVAuthorizationStatusRestricted</span>:&#123;</span><br><span class="line">        <span class="comment">// 用户明确地拒绝授权，或者相机设备无法访问</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">default</span>:&#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//<span class="doctag">TODO:</span>判断音频设备是否可用</span></span><br><span class="line">- (<span class="keyword">void</span>)requestAccessForAudio &#123;</span><br><span class="line">    <span class="built_in">AVAuthorizationStatus</span> status = [<span class="built_in">AVCaptureDevice</span> authorizationStatusForMediaType:<span class="built_in">AVMediaTypeAudio</span>];</span><br><span class="line">    <span class="keyword">switch</span> (status) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="built_in">AVAuthorizationStatusNotDetermined</span>: &#123;</span><br><span class="line">        <span class="comment">// 许可对话没有出现，发起授权许可</span></span><br><span class="line">            [<span class="built_in">AVCaptureDevice</span> requestAccessForMediaType:<span class="built_in">AVMediaTypeAudio</span> completionHandler:^(<span class="built_in">BOOL</span> granted) &#123;</span><br><span class="line">            &#125;];</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="built_in">AVAuthorizationStatusAuthorized</span>: &#123;</span><br><span class="line">        <span class="comment">// 已经开启授权</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">case</span> <span class="built_in">AVAuthorizationStatusDenied</span>:</span><br><span class="line">        <span class="keyword">case</span> <span class="built_in">AVAuthorizationStatusRestricted</span>:&#123;</span><br><span class="line">        <span class="comment">// 用户明确地拒绝授权，或者音频设备无法访问</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> mark - 代理方法</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> mark - LFStreamingSessionDelegate</span></span><br><span class="line"><span class="comment">/** 直播状态回调 */</span></span><br><span class="line">- (<span class="keyword">void</span>)liveSession:(<span class="keyword">nullable</span> LFLiveSession *)session liveStateDidChange:(LFLiveState)state &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __FUNCTION__);</span><br><span class="line">    <span class="keyword">switch</span> (state) &#123;</span><br><span class="line">        <span class="keyword">case</span> LFLiveReady:</span><br><span class="line">            _stateLabel.text = <span class="string">@&quot;未连接&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> LFLivePending:</span><br><span class="line">            _stateLabel.text = <span class="string">@&quot;连接中&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> LFLiveStart:</span><br><span class="line">            _stateLabel.text = <span class="string">@&quot;已连接&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> LFLiveError:</span><br><span class="line">            _stateLabel.text = <span class="string">@&quot;连接错误&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> LFLiveStop:</span><br><span class="line">            _stateLabel.text = <span class="string">@&quot;未连接&quot;</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)liveSession:(<span class="keyword">nullable</span> LFLiveSession *)session debugInfo:(<span class="keyword">nullable</span> LFLiveDebug *)debugInfo &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __FUNCTION__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)liveSession:(<span class="keyword">nullable</span> LFLiveSession *)session errorCode:(LFLiveSocketErrorCode)errorCode &#123;</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@&quot;%s&quot;</span>, __FUNCTION__);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="emsp-emsp-4-2-2-模拟rtmp直播"><a href="#emsp-emsp-4-2-2-模拟rtmp直播" class="headerlink" title="&emsp;&emsp;4.2.2 模拟rtmp直播"></a>&emsp;&emsp;4.2.2 模拟rtmp直播</h4><pre><code>将代码中的self.streamUrl设置为
+rtmp://10.3.9.10:9090/rmspApp/133009
+</code></pre>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//推流</span></span><br><span class="line"><span class="comment">//将代码中的self.streamUrl设置为rtmp://10.3.9.10:9090/rmspApp/133009</span></span><br><span class="line"><span class="comment">//直播会有多个直播室，这里随便弄一个编号133009模拟</span></span><br><span class="line"><span class="keyword">self</span>.streamUrl = <span class="string">@&quot;rtmp://10.3.9.10:9090/rmspApp/133009&quot;</span>;<span class="comment">//自己搭建的本地服务器</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//如果本地服务器还没有配置好，可以使用网上开源的一个地址进行测试</span></span><br><span class="line"><span class="comment">//self.streamUrl = @&quot;rtmp://live.hkstv.hk.lxdns.com:1935/live/133009&quot;;//开源的RTMP服务器(更改房间号就可以了)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//播放</span></span><br><span class="line"><span class="comment">//使用FLV播放</span></span><br><span class="line"><span class="comment">//File -&gt; Open Network…</span></span><br><span class="line"><span class="comment">//RUL中输入  rtmp://10.3.9.10:9090/rmspApp/133009</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//iOS使用ijkplayer播放</span></span><br><span class="line"><span class="comment">//NSString * videoUrl = @&quot;rtmp://10.3.9.10:9090/rmspApp/133009&quot;;</span></span><br><span class="line"><span class="comment">//self.player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:videoUrl withOptions:nil];</span></span><br><span class="line"><span class="comment">//[_player prepareToPlay];</span></span><br><span class="line"><span class="comment">//[self.view addSubview:_player.view];</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+<h4 id="emsp-emsp-4-2-2-模拟HLS直播"><a href="#emsp-emsp-4-2-2-模拟HLS直播" class="headerlink" title="&emsp;&emsp;4.2.2 模拟HLS直播"></a>&emsp;&emsp;4.2.2 模拟HLS直播</h4><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//推流</span></span><br><span class="line"><span class="comment">//将代码中的self.streamUrl设置为http://10.3.9.103:9088/hls/133009</span></span><br><span class="line"><span class="comment">//直播会有多个直播室，这里随便弄一个编号133009模拟</span></span><br><span class="line"><span class="comment">//注意拉流的端口号要与配置文件中的端口号一致（参见3.3）</span></span><br><span class="line"><span class="keyword">self</span>.streamUrl = <span class="string">@&quot;http://10.3.9.103:9088/hls/133009&quot;</span>;<span class="comment">//HLS本地服务器</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//播放</span></span><br><span class="line"><span class="comment">//使用FLV播放</span></span><br><span class="line"><span class="comment">//File -&gt; Open Network…</span></span><br><span class="line"><span class="comment">//RUL中输入  http://10.3.9.103:9088/hls/133009.m3u8</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用Safari播放</span></span><br><span class="line"><span class="comment">//在地址栏中输入  http://10.3.9.103:9088/hls/133009.m3u8</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//iOS使用ijkplayer播放</span></span><br><span class="line"><span class="comment">//NSString * videoUrl = @&quot;http://10.3.9.103:9088/hls/133009.m3u8&quot;;</span></span><br><span class="line"><span class="comment">//self.player = [[IJKFFMoviePlayerController alloc] initWithContentURLString:videoUrl withOptions:nil];</span></span><br><span class="line"><span class="comment">//[_player prepareToPlay];</span></span><br><span class="line"><span class="comment">//[self.view addSubview:_player.view];</span></span><br></pre></td></tr></table></figure>
+
+<p>代码事例请前往github下载：<a target="_blank" rel="noopener" href="https://github.com/xudusheng/Http-Live-Streaming">https://github.com/xudusheng/Http-Live-Streaming</a> 。<br>后面会陆陆续续把相关的理论知识补上，请继续关注。</p>
+
+
+<div class="article-footer fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body"><div class="post-title h2"><a href="/2017/03/02/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%EF%BC%88Test%20Flight%EF%BC%89/">自动化测试（Test Flight）</a></div><div class="post-title fs14"><a href="/2019/03/13/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%EF%BC%88%E8%84%9A%E6%9C%AC%E6%89%93%E5%8C%85%EF%BC%89/">上一篇：自动化测试（脚本打包）</a></div></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer fs12"><hr><div><p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+<p>本站由 <a href="http://example.com/">@许杜生</a> 创建，使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.1.0">Stellar</a> 作为主题。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script')
+      script.src = src
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.1.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
+    sitesjs: '/js/plugins/sites.js',
+    friendsjs: '/js/plugins/friends.js',
+  };
+
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper/swiper-bundle.min.css","js":"https://unpkg.com/swiper/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

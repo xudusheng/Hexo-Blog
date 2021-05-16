@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 5.4.0">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>自动化测试（Jenkins+GitHub+fir-cli自动打包发布） - 许杜生の技术博客</title>
+
+  
+    <meta name="description" content="12345678目录：1、安装Jenkins2、进入Jenkins3、下载安装firm.im插件4、安装GitHub和Git插件5、安装Xcode插件6、创建并配置项目7、常见错误  终端启动Jenkins并启动Jenkinscd &#x2F;Applications&#x2F;Jenkins&#x2F;java -jar jenkins.war –httpPort&#x3D;7070 1、安装Jenkins方式一：官网下载 http">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自动化测试（Jenkins+GitHub+fir-cli自动打包发布）">
+<meta property="og:url" content="http://example.com/2017/02/19/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%EF%BC%88Jenkins+GitHub+fir-cli%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85%E5%8F%91%E5%B8%83%EF%BC%89/index.html">
+<meta property="og:site_name" content="许杜生の技术博客">
+<meta property="og:description" content="12345678目录：1、安装Jenkins2、进入Jenkins3、下载安装firm.im插件4、安装GitHub和Git插件5、安装Xcode插件6、创建并配置项目7、常见错误  终端启动Jenkins并启动Jenkinscd &#x2F;Applications&#x2F;Jenkins&#x2F;java -jar jenkins.war –httpPort&#x3D;7070 1、安装Jenkins方式一：官网下载 http">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-1.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-2.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-3.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-4.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-5.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-6.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-7.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-8.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-9.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-10.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-11.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-12.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-13.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-14.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-15.png">
+<meta property="og:image" content="http://129.204.47.207/img/blog/20161211-1-16.png">
+<meta property="article:published_time" content="2017-02-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2021-05-16T12:11:10.323Z">
+<meta property="article:author" content="许杜生">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://129.204.47.207/img/blog/20161211-1-1.png">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+</head>
+
+<body>
+  
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left'>
+    
+
+<header class='header'>
+  <div class='logo-wrap'>
+  
+    <a class='avatar' href='/about/'>
+      
+        <img no-lazy class='bg' style='opacity:0' src='https://cdn.jsdelivr.net/gh/cdn-x/placeholder@1.0.2/avatar/round/rainbow64@3x.webp'/>
+      
+      <img no-lazy class='avatar' src='http://img.qqju.com/pic/tx/tx14320s.jpg'/>
+    </a>
+  
+  
+    <a class='title' href='/'>
+      许杜生の技术博客
+    </a>
+  
+</div>
+
+  <nav class="menu dis-select"></nav>
+</header>
+
+<div class='widgets'>
+  
+    
+      
+      
+<div class="widget-wrap" id="toc"><div class="widget-header h4 dis-select"><span class="name">本文目录</span></div><div class="widget-body fs14 post"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E5%AE%89%E8%A3%85Jenkins"><span class="toc-text">1、安装Jenkins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E8%BF%9B%E5%85%A5Jenkins"><span class="toc-text">2、进入Jenkins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E4%B8%8B%E8%BD%BD%E5%92%8C%E5%AE%89%E8%A3%85fir-im%E7%9A%84%E6%8F%92%E4%BB%B6"><span class="toc-text">3、下载和安装fir.im的插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E3%80%81%E5%AE%89%E8%A3%85GitHub%E5%92%8CGit%E6%8F%92%E4%BB%B6"><span class="toc-text">4、安装GitHub和Git插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%E3%80%81%E5%AE%89%E8%A3%85Xcode%E6%8F%92%E4%BB%B6"><span class="toc-text">5、安装Xcode插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7%E3%80%81%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF"><span class="toc-text">7、常见错误</span></a></li></ol></div></div></div>
+
+    
+  
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+  <div class='bread-nav fs12'>
+  
+    
+    <div id='breadcrumb'>
+      <a class='cap breadcrumb' href='/'>主页</a>
+      <span class="sep"></span>
+      <a class='cap breadcrumb' href='/'>文章</a>
+      
+        <span class="sep"></span>
+        <a class="cap breadcrumb-link" href="/categories/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95/">自动化测试</a>
+      
+    </div>
+    <div id='post-meta'>
+      发布于&nbsp;<time datetime='2017-02-18T16:00:00.000Z'>2017-02-19</time>
+    </div>
+  
+  </div>
+
+
+<article class='content md post'>
+<h1 class="article-title"><span>自动化测试（Jenkins+GitHub+fir-cli自动打包发布）</span></h1>
+<ul>
+<li><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">目录：</span><br><span class="line">1、安装Jenkins</span><br><span class="line">2、进入Jenkins</span><br><span class="line">3、下载安装firm.im插件</span><br><span class="line">4、安装GitHub和Git插件</span><br><span class="line">5、安装Xcode插件</span><br><span class="line">6、创建并配置项目</span><br><span class="line">7、常见错误</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>终端启动Jenkins并启动Jenkins<br>cd /Applications/Jenkins/<br>java -jar jenkins.war –httpPort=7070</p>
+<h3 id="1、安装Jenkins"><a href="#1、安装Jenkins" class="headerlink" title="1、安装Jenkins"></a>1、安装Jenkins</h3><p>方式一：官网下载 <div class="tag-plugin link dis-select"><a class="link-card" title="https://jenkins.io/" href="Jenkins"><div class="left"><span class="title fs14">https://jenkins.io/</span><span class="url fs12">Jenkins</span></div><div class="right"><div class="lazy img" data-bg="https://cdn.jsdelivr.net/gh/cdn-x/placeholder@1.0.1/link/8f277b4ee0ecd.svg"></div></div></a></div></p>
+<ul>
+<li>安装完后通过终端打开<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ open /Users/ZZX/Desktop/Jenkins/jenkins.war</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>方式二：通过命令行下载安装</p>
+<ul>
+<li><p>首先安装homebrew</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ruby -e <span class="string">&quot;<span class="subst">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>然后安装Jenkins</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install jenkins </span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2、进入Jenkins"><a href="#2、进入Jenkins" class="headerlink" title="2、进入Jenkins"></a>2、进入Jenkins</h3><p>在浏览器里面输入 <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080/</a><br>当端口发送冲突时，在终端输入一下命令修改端口</p>
+<ul>
+<li><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$cd</span> /Applications/Jenkins/</span><br><span class="line">$ java -jar jenkins.war --httpPort=7070</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3、下载和安装fir-im的插件"><a href="#3、下载和安装fir-im的插件" class="headerlink" title="3、下载和安装fir.im的插件"></a>3、下载和安装fir.im的插件</h3><ul>
+<li>下载 <div class="tag-plugin link dis-select"><a class="link-card" title="http://7xju1s.com1.z0.glb.clouddn.com/fir-plugin(5).hpi" href="插件"><div class="left"><span class="title fs14">http://7xju1s.com1.z0.glb.clouddn.com/fir-plugin(5).hpi</span><span class="url fs12">插件</span></div><div class="right"><div class="lazy img" data-bg="https://cdn.jsdelivr.net/gh/cdn-x/placeholder@1.0.1/link/8f277b4ee0ecd.svg"></div></div></a></div></li>
+<li>安装插件<br>进入Jenkins点击左上方的系统管理然后进入插件管理<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-1.png" alt="image"></li>
+</ul>
+<p>然后点高级<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-2.png" alt="image"></p>
+<p>往下拖找到上传插件<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-3.png" alt="image"></p>
+<p>把下载好的文件传入，然后等待安装完成<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-4.png" alt="image"></p>
+<h3 id="4、安装GitHub和Git插件"><a href="#4、安装GitHub和Git插件" class="headerlink" title="4、安装GitHub和Git插件"></a>4、安装GitHub和Git插件</h3><p>为了能够在GitHub分支更新后能够自动打包上传，这里需要安装两个git插件</p>
+<ul>
+<li>GitHub Plugin</li>
+<li>Git Plugin</li>
+</ul>
+<h3 id="5、安装Xcode插件"><a href="#5、安装Xcode插件" class="headerlink" title="5、安装Xcode插件"></a>5、安装Xcode插件</h3><ul>
+<li>Xcode integration</li>
+</ul>
+<p>6、创建并配置项目  </p>
+<ul>
+<li><p>6.1、创建一个新的项目 </p>
+</li>
+<li><p>6.2、项目基本信息<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-5.png" alt="image"></p>
+</li>
+</ul>
+<ul>
+<li>6.3、源码管理信息<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-6.png" alt="image"></li>
+</ul>
+<ul>
+<li>6.4、构建触发器：<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-7.png" alt="image"></li>
+</ul>
+<ul>
+<li>6.5、构建-&gt;添加构建步骤<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-8.png" alt="image"></li>
+</ul>
+<ul>
+<li>6.6、构建-&gt;Xcode<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-9.png" alt="image"></li>
+</ul>
+<ul>
+<li>6.7、构建-&gt;Xcode证书信息<br>我这里是git上的项目已经配置好了证书和provision profiles。<br>1、勾选Unlock Keychain；<br>2、Keychain path中输入 ￥{HOME}/Library/Keychains/login.keychain;<br>3、Keychain password为你的钥匙串密码。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-10.png" alt="image"></li>
+</ul>
+<ul>
+<li>6.8、构建后操作-&gt;Upload to fir.im<br>安装过fim.im插件以后，这里就可以看到Upload to fim.im选项了，fim.im的上传脚本可参考fir.im的相关文档进行操作，如果使用的是蒲公英或者其他第三方托管平台，这一步的操作是一样的，安装插件-添加构建后操作-&gt;添加上传脚本<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-11.png" alt="image"><br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-12.png" alt="image"></li>
+</ul>
+<p>至此，所有的配置都已经完成，下面就可以进行构建操作了。</p>
+<p>最后一步：构建生成ipa文件，并上传fir.im<br>回到刚刚创建的项目，进入项目页面，点击左边的“立即构建”按钮，即可开始构建。构建完成以后，可以在配置的ipa所在的路径查看是否生产ipa文件。登录fir.im查看是否已经上传到fim.im上。至此，本教程结束。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-13.png" alt="image"></p>
+<hr>
+<p>2016.06.27补充<br>如果项目中使用了cocoapods管理第三方框架，那么构建-&gt;xcode设置时需要注意：</p>
+<ol>
+<li>因为项目中使用 workspace， 所以 Target 可以不填。<br><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-14.png" alt="image"></li>
+</ol>
+<pre><code>Xcode Schema File:  这里的 Laomoney_debug 就是我在 Xcode 项目中新建的 scheme。
+Xcode Workspace File: 使用cocoaPods的项目包含有 workspace，这里设置对应路径，注意不需要带上 .xcworkspace 后缀。
+XcodeProjectDirectory: Xcode 项目所在目录
+Xcode Project File: Xcode 项目文件，这里需要带上 .xcodeproj 后缀。
+Build output directory: 设置构建输出目录。
+</code></pre>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-15.png" alt="image"></p>
+<p>以下是项目的文件夹目录</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="http://129.204.47.207/img/blog/20161211-1-16.png" alt="image"></p>
+<h3 id="7、常见错误"><a href="#7、常见错误" class="headerlink" title="7、常见错误"></a>7、常见错误</h3><p>1、错误：rsync error: some files could not be transferred (code 23) at /BuildRoot/Library/Caches/com.apple.xbs/Sources/rsync/rsync-47/rsync/main.c(992) [sender=2.6.9]<br>Command /bin/sh failed with exit code 23<br>报如上错误时，貌似是一堆图片资源冲突。<br>解决方法：<br>将 ~/Library/Developer/Xcode/DerivedData/ 目录下的工程缓冲删除掉即可。</p>
+
+
+<div class="article-footer fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap" id="read-next"><section class="header cap theme"><span>接下来阅读</span></section><section class="body"><div class="post-title h2"><a href="/2016/12/10/iHappy%EF%BC%8C%E5%9F%BA%E4%BA%8EReact%20Native%E7%9A%84%E5%BC%80%E5%8F%91/">iHappy，基于React Native的开发</a></div><div class="post-title fs14"><a href="/2017/02/26/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%EF%BC%88Xcode%E4%B8%80%E9%94%AE%E6%89%93%E5%8C%85%E5%8F%91%E5%B8%83%EF%BC%89/">上一篇：自动化测试（Xcode一键打包发布）</a></div></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer fs12"><hr><div><p>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+<p>本站由 <a href="http://example.com/">@许杜生</a> 创建，使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.1.0">Stellar</a> 作为主题。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script')
+      script.src = src
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.1.0';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js',
+    sitesjs: '/js/plugins/sites.js',
+    friendsjs: '/js/plugins/friends.js',
+  };
+
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.3.1/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper/swiper-bundle.min.css","js":"https://unpkg.com/swiper/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
