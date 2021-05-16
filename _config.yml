@@ -105,6 +105,6 @@ theme: stellar
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-    type: gitHub
+    type: git
     repo: git@github.com:xudusheng/xudusheng.github.io.git
     branch: master
