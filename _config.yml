@@ -97,9 +97,14 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: hexo-theme-stellar-main
+theme: stellar
 
+#安装stellar主题
+#npm i hexo-theme-stellar
+
+# Deployment
+## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-    type: git
+    type: gitHub
     repo: git@github.com:xudusheng/xudusheng.github.io.git
     branch: master
